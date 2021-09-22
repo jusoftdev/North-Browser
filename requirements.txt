@@ -1,0 +1,10 @@
+wheel
+PyQt5
+PyQtWebEngine
+pysqlite3 
+datetime
+adblockparser
+keyboard
+subprocess.run
+Flask
+autopy
