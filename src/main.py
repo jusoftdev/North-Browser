@@ -16,9 +16,9 @@ from PIL import ImageGrab
 import json
 from types import SimpleNamespace
 import browser
-from PyQt5.QtWebKit import QWebSettings
-from PyQt5.QtWebKitWidgets import QWebView, QWebInspector
-from PyQt5.QtWidgets import QApplication, QSplitter, QVBoxLayout
+#from PyQt5.QtWebKit import QWebSettings
+#from PyQt5.QtWebKitWidgets import QWebView, QWebInspector
+#from PyQt5.QtWidgets import QApplication, QSplitter, QVBoxLayout
 
 
 Man_db = man_db.Man_Db(path="..\\ressources\\data\\db.db")
@@ -32,17 +32,17 @@ class MainWindow(QMainWindow):
     def __init__(self, incognito=False, darkmode=False,*args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
 
-        self.view = QWebView(self)
-        self.view.settings().setAttribute(
-            QWebSettings.DeveloperExtrasEnabled, True)
-        self.inspector = QWebInspector()
-        self.inspector.setPage(self.view.page())
-        self.inspector.show()
-        self.splitter = QSplitter(self)
-        self.splitter.addWidget(self.view)
-        self.splitter.addWidget(self.inspector)
-        layout = QVBoxLayout(self)
-        layout.addWidget(self.splitter)
+        #self.view = QWebView(self)
+        #self.view.settings().setAttribute(
+        #    QWebSettings.DeveloperExtrasEnabled, True)
+        #self.inspector = QWebInspector()
+        #self.inspector.setPage(self.view.page())
+        #self.inspector.show()
+        #self.splitter = QSplitter(self)
+        #self.splitter.addWidget(self.view)
+        #self.splitter.addWidget(self.inspector)
+        #layout = QVBoxLayout(self)
+        #layout.addWidget(self.splitter)
         # backround color
         # self.textbox.setStyleSheet("background-color:lightgreen")
 
