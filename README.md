@@ -12,9 +12,8 @@
 
   https://www.heise.de/tipps-tricks/Git-auf-Windows-installieren-und-einrichten-5046134.html  
 
-  git clone  https://github.com/Lynix152/Jusoft-Browser.git  
-  
-  rename the directory to Jusoft-Browser2 or something else and run setup.py in its src folder!</p>
+  git clone  https://github.com/jusoftdev/North-Browser.git  
+  </p>
 
 
 
