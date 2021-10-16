@@ -1,5 +1,5 @@
 wheel
-PyQt5
+PyQt5==5.10
 PyQtWebEngine
 pysqlite3 
 datetime
