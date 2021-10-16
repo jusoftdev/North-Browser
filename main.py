@@ -6,6 +6,7 @@ from PyQt5 import QtGui
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+from PyQt5 import QtCore, QtWidgets, QtWebEngineWidgets
 import improver
 import man_db
 import subprocess
@@ -296,6 +297,8 @@ class MainWindow(QMainWindow):
         self.browser.viewpressed.connect(lambda: self.viewSource())
         self.browser.inspectpressed.connect(lambda: self.inspectElement())
 
+        self.browser.page().profile().downloadRequested.connect(self.on_downloadRequested)
+
         thread = QThread(parent=self)
         worker.moveToThread(thread)
         thread.started.connect(worker.run)
@@ -557,6 +560,17 @@ class MainWindow(QMainWindow):
 
     def viewSource(self):
         self.view.load(QUrl('http://www.google.com'))
+
+    def on_downloadRequested(self, download):
+        old_path = download.url().path()
+        suffix = QtCore.QFileInfo(old_path).suffix()
+        path, _ = QFileDialog.getSaveFileName(
+            self, "Save File", old_path, "*." + suffix
+        )
+        if path:
+            download.setPath(path)
+            download.accept()
+            #download.finished.connect(self.foo)
 
 
 
