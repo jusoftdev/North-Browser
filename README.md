@@ -21,12 +21,7 @@
 
 <h1>Run:</h1>
 
-<p>win + r (Open Execute Dialog)  
-
-  cmd.exe (Open Cmd)  
-
-  enter  
-
-  cd your Directory (Change Working Directory to the Browser)  
-
-  python browser.py (Run Programm)  </p>
+<p>Open your terminal and go to your Directory  
+  (Change Working Directory to the src forlder)  
+  then just use:   
+  python3 main.py to open the Browser!  </p>
