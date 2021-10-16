@@ -8,3 +8,4 @@ keyboard
 subprocess.run
 Flask
 autopy
+requests
