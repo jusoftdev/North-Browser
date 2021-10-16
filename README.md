@@ -13,6 +13,9 @@
   https://www.heise.de/tipps-tricks/Git-auf-Windows-installieren-und-einrichten-5046134.html  
 
   git clone  https://github.com/jusoftdev/North-Browser.git  
+  
+  Now you have to run the setup.py in src
+  
   </p>
 
 
