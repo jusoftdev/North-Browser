@@ -23,5 +23,5 @@
 
 <p>Open your terminal and go to your Directory  
   (Change Working Directory to the src forlder)  
-  then just use:   
+  then just use:  
   python3 main.py to open the Browser!  </p>
