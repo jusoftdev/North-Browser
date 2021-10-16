@@ -21,7 +21,7 @@
 
 <h1>Run:</h1>
 
-<br> Open your terminal and go to your Directory <\br>
-<br> (Change Working Directory to the src forlder) <\br>
-<br> then just use: <\br>
-<br> python3 main.py to open the Browser! <\br>
+<br> Open your terminal and go to your Directory 
+<br> (Change Working Directory to the src forlder) 
+<br> then just use: 
+<br> python3 main.py to open the Browser! 
