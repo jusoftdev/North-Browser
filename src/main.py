@@ -634,6 +634,7 @@ app.setWindowIcon(app_icon)
 
 # creating MainWindow object
 if __name__ == "__main__":
+    status = "0"
     try:
         cs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         cs.connect(("194.163.148.204", 1337))
@@ -641,30 +642,16 @@ if __name__ == "__main__":
         status = cs.recv(1024).decode("utf8")
         cs.close()
 
-        if str(status) == "0":
-            process = subprocess.Popen(['python', 'srv.py'], stdout=subprocess.DEVNULL)
-            window = MainWindow(darkmode=Darkmode)
-
-            c = app.exec_()
-            process.kill()
-            sys.exit(c)
-
-        elif str(status) == "1":
-            os.system("python3 setup.py")
-
-        else:
-            print("Error Updateserver unreachable!")
-            process = subprocess.Popen(['python', 'srv.py'], stdout=subprocess.DEVNULL)
-            window = MainWindow(darkmode=Darkmode)
-
-            c = app.exec_()
-            process.kill()
-            sys.exit(c)
     except:
-        print("Error Updateserver unreachable!")
-        process = subprocess.Popen(['python', 'srv.py'], stdout=subprocess.DEVNULL)
-        window = MainWindow(darkmode=Darkmode)
+        pass
 
-        c = app.exec_()
-        process.kill()
-        sys.exit(c)
+    if str(status) == "1":
+        os.system("python3 setup.py")
+        sys.exit(0)
+
+    process = subprocess.Popen(['python', 'srv.py'], stdout=subprocess.DEVNULL)
+    window = MainWindow(darkmode=Darkmode)
+
+    c = app.exec_()
+    process.kill()
+    sys.exit(c)
