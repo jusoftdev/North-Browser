@@ -18,6 +18,7 @@ import json
 from types import SimpleNamespace
 import browser
 import socket
+from PyQt5.QtWebEngineWidgets import QWebEngineSettings as QWebSettings
 #from PyQt5.QtWebKit import QWebSettings
 #from PyQt5.QtWebKitWidgets import QWebView, QWebInspector
 #from PyQt5.QtWidgets import QApplication, QSplitter, QVBoxLayout
@@ -575,10 +576,11 @@ class MainWindow(QMainWindow):
 
 
     def inspectElement(self):
-        self.inspector.setPage(self.browser.page())
-        self.inspector.show()
-        self.splitter.addWidget(self.browser)
-        self.splitter.addWidget(self.inspector)
+        #self.inspector.setPage(self.browser.page())
+        #self.inspector.show()
+        #self.splitter.addWidget(self.browser)
+        #self.splitter.addWidget(self.inspector)
+        self.browser.page().settings().setAttribute(QWebSettings.DeveloperExtras, True)
 
 
 
@@ -632,28 +634,24 @@ app.setWindowIcon(app_icon)
 
 # creating MainWindow object
 if __name__ == "__main__":
-    cs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    cs.connect(("194.163.148.204", 1337))
-    cs.send("Update?".encode("utf8"))
-    status = cs.recv(1024).decode("utf8")
-    cs.close()
+    status = "0"
+    try:
+        cs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        cs.connect(("194.163.148.204", 1337))
+        cs.send("Update?".encode("utf8"))
+        status = cs.recv(1024).decode("utf8")
+        cs.close()
 
-    if str(status) == "0":
-        process = subprocess.Popen(['python', 'srv.py'], stdout=subprocess.DEVNULL)
-        window = MainWindow(darkmode=Darkmode)
+    except:
+        pass
 
-        c = app.exec_()
-        process.kill()
-        sys.exit(c)
-
-    elif str(status) == "1":
+    if str(status) == "1":
         os.system("python3 setup.py")
+        sys.exit(0)
 
-    else:
-        print("Error Updateserver unreachable!")
-        process = subprocess.Popen(['python', 'srv.py'], stdout=subprocess.DEVNULL)
-        window = MainWindow(darkmode=Darkmode)
+    process = subprocess.Popen(['python', 'srv.py'], stdout=subprocess.DEVNULL)
+    window = MainWindow(darkmode=Darkmode)
 
-        c = app.exec_()
-        process.kill()
-        sys.exit(c)
+    c = app.exec_()
+    process.kill()
+    sys.exit(c)
