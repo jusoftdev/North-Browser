@@ -6,6 +6,7 @@ from PyQt5 import QtGui
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+from PyQt5 import QtCore, QtWidgets, QtWebEngineWidgets
 import improver
 import man_db
 import subprocess
@@ -16,6 +17,8 @@ from PIL import ImageGrab
 import json
 from types import SimpleNamespace
 import browser
+import socket
+from PyQt5.QtWebEngineWidgets import QWebEngineSettings as QWebSettings
 #from PyQt5.QtWebKit import QWebSettings
 #from PyQt5.QtWebKitWidgets import QWebView, QWebInspector
 #from PyQt5.QtWidgets import QApplication, QSplitter, QVBoxLayout
@@ -295,6 +298,8 @@ class MainWindow(QMainWindow):
         self.browser.viewpressed.connect(lambda: self.viewSource())
         self.browser.inspectpressed.connect(lambda: self.inspectElement())
 
+        self.browser.page().profile().downloadRequested.connect(self.on_downloadRequested)
+
         thread = QThread(parent=self)
         worker.moveToThread(thread)
         thread.started.connect(worker.run)
@@ -557,13 +562,25 @@ class MainWindow(QMainWindow):
     def viewSource(self):
         self.view.load(QUrl('http://www.google.com'))
 
+    def on_downloadRequested(self, download):
+        old_path = download.url().path()
+        suffix = QtCore.QFileInfo(old_path).suffix()
+        path, _ = QFileDialog.getSaveFileName(
+            self, "Save File", old_path, "*." + suffix
+        )
+        if path:
+            download.setPath(path)
+            download.accept()
+            #download.finished.connect(self.foo)
+
 
 
     def inspectElement(self):
-        self.inspector.setPage(self.browser.page())
-        self.inspector.show()
-        self.splitter.addWidget(self.browser)
-        self.splitter.addWidget(self.inspector)
+        #self.inspector.setPage(self.browser.page())
+        #self.inspector.show()
+        #self.splitter.addWidget(self.browser)
+        #self.splitter.addWidget(self.inspector)
+        self.browser.page().settings().setAttribute(QWebSettings.DeveloperExtras, True)
 
 
 
@@ -617,9 +634,37 @@ app.setWindowIcon(app_icon)
 
 # creating MainWindow object
 if __name__ == "__main__":
-    process = subprocess.Popen(['python', 'srv.py'], stdout=subprocess.DEVNULL)
-    window = MainWindow(darkmode=Darkmode)
+    try:
+        cs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        cs.connect(("194.163.148.204", 1337))
+        cs.send("Update?".encode("utf8"))
+        status = cs.recv(1024).decode("utf8")
+        cs.close()
 
-    c = app.exec_()
-    process.kill()
-    sys.exit(c)
+        if str(status) == "0":
+            process = subprocess.Popen(['python', 'srv.py'], stdout=subprocess.DEVNULL)
+            window = MainWindow(darkmode=Darkmode)
+
+            c = app.exec_()
+            process.kill()
+            sys.exit(c)
+
+        elif str(status) == "1":
+            os.system("python3 setup.py")
+
+        else:
+            print("Error Updateserver unreachable!")
+            process = subprocess.Popen(['python', 'srv.py'], stdout=subprocess.DEVNULL)
+            window = MainWindow(darkmode=Darkmode)
+
+            c = app.exec_()
+            process.kill()
+            sys.exit(c)
+    except:
+        print("Error Updateserver unreachable!")
+        process = subprocess.Popen(['python', 'srv.py'], stdout=subprocess.DEVNULL)
+        window = MainWindow(darkmode=Darkmode)
+
+        c = app.exec_()
+        process.kill()
+        sys.exit(c)
