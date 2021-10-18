@@ -10,7 +10,6 @@ ndir = os.getcwd()
 olddir = olddir.replace(ndir + "\\", "")
 nogit = True
 
-print(os.listdir())
 dir = os.listdir()
 dst = ""
 f = False
