@@ -16,7 +16,7 @@ f = False
 
 for _ in range(1, 100001):
 	if not "Jusoft-Browser_v" + str(_) in os.listdir() and not f:
-		dst = "Jusoft-Browser_v" + str(_)
+		dst = "North-Browser_v" + str(_)
 		f = True
 
 if dst == "":
@@ -51,7 +51,7 @@ k = input("This will install new Version and needed requirements after that it s
 if k == "y":
 	try:
 		#Clones new version from Github
-		i = os.system("git clone https://github.com/Lynix152/Jusoft-Browser.git " + str(dst))
+		i = os.system("https://github.com/jusoftdev/North-Browser.git" + str(dst))
 		if i == 0:
 			nogit = False
 		os.system("pip install --upgrade pip")
